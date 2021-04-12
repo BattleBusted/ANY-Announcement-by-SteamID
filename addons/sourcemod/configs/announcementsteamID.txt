@@ -1,0 +1,13 @@
+// SteamIDs must be in STEAM_1:X:YYYYYYYYY format (SteamID32)
+// Don't include Sound folder in the Sound path 
+// Available colors: {default}, {red}, {lightred}, {darkred}, {bluegray}, {blue}, {darkblue}, {purple}, {orchid}, {yellow}, {gold}, {lightgreen}, {green}, {lime}, {gray}, {gray2}
+
+"Custom Announcements"
+{
+    "0"
+    {
+        "steamid" "STEAM_1:X:YYYYYYYYY"
+        "sound" "this/is/an/example.mp3"
+        "connectmsg" "{green}this is an {darkred}example"
+    }
+}
