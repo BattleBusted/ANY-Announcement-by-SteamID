@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <emitsoundany>
-#include <morecolors>
+#include <colorvariables>
 
 
 #define CONFIG_PATH "configs/announcementsteamID.txt"
@@ -11,13 +11,13 @@ public Plugin myinfo =
     name = "Announcement by SteamID",
     author = "Busted",
     description = "Print a message and play a sound when a player connect by steam ID",
-    version = "1.0",
+    version = "1.1",
     url = "https://attawaybaby.com/"
 };
 
-char sPath [PLATFORM_MAX_PATH];
+char sz_Path [PLATFORM_MAX_PATH];
 char soundBuffer [PLATFORM_MAX_PATH];
-char sBuffer [256];
+char szBuffer [256];
 char s1Buffer [256];
 char s2Buffer [256];
 char g_SteamID[MAXPLAYERS + 1][32];
@@ -25,19 +25,19 @@ char g_SteamID[MAXPLAYERS + 1][32];
 
 public void OnConfigsExecuted()
 {
-    BuildPath(Path_SM, sPath, sizeof(sPath), "%s", CONFIG_PATH);
+    BuildPath(Path_SM, sz_Path, sizeof(sz_Path), "%s", CONFIG_PATH);
     
-    if (FileExists(sPath))
+    if (FileExists(sz_Path))
     {
         Handle kv = CreateKeyValues("Custom Announcements");
-        if (FileToKeyValues(kv, sPath) && KvGotoFirstSubKey(kv))
+        if (FileToKeyValues(kv, sz_Path) && KvGotoFirstSubKey(kv))
         {
             do
             {
-                KvGetString(kv, "sound", sBuffer, sizeof(sBuffer));
-                Format(soundBuffer, sizeof(soundBuffer), "sound/%s", sBuffer);
+                KvGetString(kv, "sound", szBuffer, sizeof(szBuffer));
+                Format(soundBuffer, sizeof(soundBuffer), "sound/%s", szBuffer);
 
-                PrecacheSoundAny(sBuffer);
+                PrecacheSoundAny(szBuffer);
                 AddFileToDownloadsTable(soundBuffer);
 
             } while (KvGotoNextKey(kv));
@@ -72,28 +72,28 @@ public void OnClientPostAdminCheck(int client)
 
 public void LoadConfigFile(int client)
 {
-	BuildPath(Path_SM, sPath, sizeof(sPath), "%s", CONFIG_PATH);
+	BuildPath(Path_SM, sz_Path, sizeof(sz_Path), "%s", CONFIG_PATH);
 
-	if (FileExists(sPath))
+	if (FileExists(sz_Path))
     {
         Handle kv = CreateKeyValues("Custom Announcements");
-        if (FileToKeyValues(kv, sPath) && KvGotoFirstSubKey(kv))
+        if (FileToKeyValues(kv, sz_Path) && KvGotoFirstSubKey(kv))
         {
             do
             {
-                KvGetString(kv, "steamid", sBuffer, sizeof(sBuffer), "none");
+                KvGetString(kv, "steamid", szBuffer, sizeof(szBuffer), "none");
                 // Check if this keyvalue has a steamid
-                if (!StrEqual(sBuffer, "none"))
+                if (!StrEqual(szBuffer, "none"))
                 {
-                    if(StrEqual(g_SteamID[client], sBuffer))
+                    if(StrEqual(g_SteamID[client], szBuffer))
                     {
-                        KvGetString(kv, "sound", s1Buffer, sizeof(sBuffer));
+                        KvGetString(kv, "sound", s1Buffer, sizeof(szBuffer));
                         CreateTimer(2.0, send_Sound);
-                        //EmitSoundToAllAny(sBuffer);
+                        //EmitSoundToAllAny(szBuffer);
 
-                        KvGetString(kv, "connectmsg", s2Buffer, sizeof(sBuffer));
+                        KvGetString(kv, "connectmsg", s2Buffer, sizeof(szBuffer));
                         CreateTimer(2.0, send_Message);
-                        //PrintToChatAll("%s", sBuffer);
+                        //PrintToChatAll("%s", szBuffer);
                         break;
                     }
 
