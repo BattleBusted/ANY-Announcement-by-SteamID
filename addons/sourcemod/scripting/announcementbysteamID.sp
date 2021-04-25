@@ -1,7 +1,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <emitsoundany>
-#include <multicolors>
+#include <morecolors>
 
 
 #define CONFIG_PATH "configs/announcementsteamID.txt"
